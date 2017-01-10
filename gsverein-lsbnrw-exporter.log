@@ -1,0 +1,12 @@
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Fussball' wird dem Verband '120C' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Fußball' wird dem Verband '120C' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Badminton Jugend' wird dem Verband '120C' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Badminton Montag' wird dem Verband '120C' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Volleyball' wird dem Verband '6000' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Karate' wird dem Verband '8000' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Aerobic' wird dem Verband '530B' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung '01 Passiv' wird dem Verband 'IGNORE' zugeordnet
+2017-01-10 22:53:57 DEBUG LSBNRWExporterConfig - Abteilung 'Triathlon' wird dem Verband '5400' zugeordnet
+2017-01-10 22:53:57 INFO  LSBNRWExporter    - Das Austrittsdatum kann nicht geparsed werden:Austritt
+2017-01-10 22:53:57 INFO  OutputLog         - Ausgabe-Datei: D:\dev\sandboxes\gsverein-lsbnrw-export\target\out.csv
+2017-01-10 22:53:57 INFO  LSBNRWExporter    - Ueberpruefte Datensaetze. Anzahl: 8 Fehlerhaft: 1
