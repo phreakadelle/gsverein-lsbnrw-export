@@ -9,8 +9,8 @@ public class LSBNRWExporterTest extends TestCase {
 	public void testParse() {
 		LSBNRWExporter v = new LSBNRWExporter();
 		try {
-			List<String> validate = v.validate("src/test/resources/config.properties", "src/test/resources/test.csv",
-					"target/out.csv");
+			List<String> validate = v.validate("src/test/resources/config.properties", "src/test/resources/ssv2016.csv",
+					"target/out2.csv");
 			for (String current : validate) {
 				System.out.println(current);
 			}
