@@ -34,4 +34,4 @@ java -jar gsverein-verband-exporter.jar --input GSVereinExport.csv --config conf
 Die Bildschirm-Ausgabe müsste nun in etwa so aussehen:
 ![Alt text](/src/site/resources/2017-01-11_112440.jpg?raw=true "Beispielausgabe")
 
-4. Du kannst nun auf dem Bildschirm die falschen Datensätze erkennen. Hast du das Programm mit dem Parameter "--output" gestartet, dann solltest du auch eine Datei mit dem angegeben Namen finden, wo nochmal alle Datensätze zu finden sind.
+6. Du kannst nun auf dem Bildschirm die falschen Datensätze erkennen. In diesem Beispiel wurde kein Verband für die Abteilung "Karate" definiert. 
