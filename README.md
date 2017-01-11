@@ -1,7 +1,5 @@
-# IBAN Prüfung für GS-Verein
-Mit diesem Programm können die IBAN Daten der Vereinsmitglieder validiert und so überprüft werden. Das Programm ist deshalb enstanden, da es in GS-Verein keine Möglichkeit gibt, die IBAN Daten bei Eingabe zu validieren.
-
-So kann man sicherstellen, dass die eingegeben IBAN Daten korrekt sind und wird nicht erst unmittelbar vor dem Beitragseinzug darauf hingewiesen.
+# GS-Verein Exporter für LSB und DOSB
+Mit diesem Programm können die Mitgliedsdaten aus GS Verein so aufbereitet werden, dass Sie sich für den Import beim LSB NRW eignen. Das Programm ist deshalb enstanden, da es in GS-Verein keine Möglichkeit gibt, die Export Daten direkt zu erstellen.
 
 # Voraussetzungen
 Auf Deinem PC muss Java installiert sein. Um Java zu installieren und für weitere Anweisungen, bitte folgende Webseite besuchen
