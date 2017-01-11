@@ -6,7 +6,7 @@ Auf Deinem PC muss Java installiert sein. Um Java zu installieren und für weite
 www.java.com
 
 # Vorgehen
-1. Damit das Programm funktioniert, müssen die Mitgliesdaten nach Excel exportiert werden. Die Export-Datei muss verbindlich die folgenden Felder enthalten: "Abteilung", "Geburtsdatum", "Geschlecht", "Austrittsdatum". Die Reihenfolge der Felder ist wichtig. Das Austrittsdatum wird beachtet, wenn das Mitglied in der Vergangenheit ausgetreten ist.
+1. Damit das Programm funktioniert, müssen die Mitgliesdaten nach Excel exportiert werden. Die Export-Datei muss verbindlich die folgenden Felder enthalten: _"Abteilung", "Geburtsdatum", "Geschlecht", "Austrittsdatum"_. Die Reihenfolge der Felder ist wichtig. Das Austrittsdatum wird beachtet, wenn das Mitglied in der Vergangenheit ausgetreten ist.
 
 2. Danach öffnest Du die exportierte Excel-Datei und speicherst sie als "CSV (DOS Format)" ab, z.B. direkt auf _C:/_ um es einfacher zu haben.
 3. Als nächstes lädst dur Dir diese Datei herunter: https://github.com/phreakadelle/gsverein-verband-export/blob/master/target/gsverein-verband-exporter.jar
