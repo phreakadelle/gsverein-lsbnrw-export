@@ -2,18 +2,23 @@ package info.watermeyer.gsverein;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
-public class LSBNRWExportErgebnis {
+import info.watermeyer.gsverein.IBestandsdatenExport.Geschlecht;
+
+public class LSBNRWExportErgebnis implements IBestandsdatenExport {
 
 	Map<String, LSBNRWExportVerbandsErgebnis> mAlleErgebnisse;
-
-	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
 	public LSBNRWExportErgebnis() {
 		mAlleErgebnisse = new HashMap<String, LSBNRWExportVerbandsErgebnis>();
 	}
 
-	public void count(final String pVerband, final int pGeburtsjahr, final String pGeschlecht) {
+	public void count(final String pVerband, final int pGeburtsjahr, final Geschlecht pGeschlecht) {
+		if (VERBAND_IGNORE.equals(pVerband)) {
+			return;
+		}
+
 		if (mAlleErgebnisse.containsKey(pVerband) == false) {
 			mAlleErgebnisse.put(pVerband, new LSBNRWExportVerbandsErgebnis(pVerband));
 		}
@@ -37,7 +42,7 @@ class LSBNRWExportVerbandsErgebnis {
 
 	public LSBNRWExportVerbandsErgebnis(String pVerband) {
 		mVerband = pVerband;
-		mAlleJahrgaenge = new HashMap<Integer, LSBNRWExportVerbandsJahresErgebnis>();
+		mAlleJahrgaenge = new TreeMap<Integer, LSBNRWExportVerbandsJahresErgebnis>();
 	}
 
 	public Object toCSV() {
@@ -53,7 +58,7 @@ class LSBNRWExportVerbandsErgebnis {
 		return sb.toString();
 	}
 
-	public void count(int pGeburtsjahr, String pGeschlecht) {
+	public void count(int pGeburtsjahr, Geschlecht pGeschlecht) {
 		if (!mAlleJahrgaenge.containsKey(pGeburtsjahr)) {
 			mAlleJahrgaenge.put(pGeburtsjahr, new LSBNRWExportVerbandsJahresErgebnis());
 		}
@@ -73,8 +78,8 @@ class LSBNRWExportVerbandsJahresErgebnis {
 		mCountW = 0;
 	}
 
-	public void count(String pGeschlecht) {
-		if ("W".equalsIgnoreCase(pGeschlecht)) {
+	public void count(Geschlecht pGeschlecht) {
+		if (Geschlecht.WEIBLEIN.equals(pGeschlecht)) {
 			mCountW++;
 		} else {
 			mCountM++;

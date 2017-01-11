@@ -4,10 +4,10 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-public class LSBNRWExporterTest extends TestCase {
+public class GSVereinExporterTest extends TestCase {
 
 	public void testParse() {
-		LSBNRWExporter v = new LSBNRWExporter();
+		GSVereinExporter v = new GSVereinExporter();
 		try {
 			List<String> validate = v.validate("src/test/resources/config.properties", "src/test/resources/ssv2016.csv",
 					"target/out2.csv");

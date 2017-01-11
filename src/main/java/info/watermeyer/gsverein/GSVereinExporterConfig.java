@@ -9,16 +9,16 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-public class LSBNRWExporterConfig {
+public class GSVereinExporterConfig {
 
 	private static final String SEPARATOR = ",";
 
-	private final static Logger LOGGER = Logger.getLogger(LSBNRWExporterConfig.class);
+	private final static Logger LOGGER = Logger.getLogger(GSVereinExporterConfig.class);
 
 	final Properties mProps;
 	final Map<String, String> mMapping;
 
-	public LSBNRWExporterConfig() {
+	public GSVereinExporterConfig() {
 		mProps = new Properties();
 		mMapping = new HashMap<String, String>();
 	}
@@ -42,13 +42,13 @@ public class LSBNRWExporterConfig {
 		}
 	}
 
-	private void addMapping(String verband, String current) {
-		LOGGER.debug("Abteilung '" + current + "' wird dem Verband '" + verband + "' zugeordnet");
-		mMapping.put(current.trim(), verband);
+	void addMapping(final String pVerband, final String pAbteilung) {
+		LOGGER.debug("Abteilung '" + pAbteilung + "' wird dem Verband '" + pVerband + "' zugeordnet");
+		mMapping.put(pAbteilung.trim(), pVerband);
 	}
 
-	private boolean moreAbteilungenDefined(String abteilungen) {
-		return abteilungen.contains(SEPARATOR);
+	boolean moreAbteilungenDefined(final String pAbteilung) {
+		return pAbteilung.contains(SEPARATOR);
 	}
 
 	public String getVerband(String pAbteilung) {

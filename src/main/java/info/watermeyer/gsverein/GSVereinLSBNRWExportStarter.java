@@ -37,7 +37,7 @@ public class GSVereinLSBNRWExportStarter {
 				final String config = cmd.getOptionValue("config");
 				final String output = cmd.getOptionValue("output");
 				
-				final LSBNRWExporter v = new LSBNRWExporter();
+				final GSVereinExporter v = new GSVereinExporter();
 				List<String> validate = v.validate(config, input, output);
 				
 				// Maybe 0, or the count of failed entries

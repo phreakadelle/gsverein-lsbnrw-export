@@ -17,13 +17,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-public class LSBNRWExporter {
+import info.watermeyer.gsverein.IBestandsdatenExport.Geschlecht;
 
-	private final static Logger LOGGER = Logger.getLogger(LSBNRWExporter.class);
+public class GSVereinExporter {
+
+	private final static Logger LOGGER = Logger.getLogger(GSVereinExporter.class);
 
 	private final LSBNRWExportErgebnis mResult;
 
-	public LSBNRWExporter() {
+	public GSVereinExporter() {
 		mResult = new LSBNRWExportErgebnis();
 	}
 
@@ -47,7 +49,7 @@ public class LSBNRWExporter {
 			throw new IllegalArgumentException(
 					"Die Konfigurationsdatei konnte nicht gefunden werden: " + pFile.getAbsolutePath());
 		}
-		LSBNRWExporterConfig pConfig = new LSBNRWExporterConfig();
+		GSVereinExporterConfig pConfig = new GSVereinExporterConfig();
 		pConfig.load(new FileInputStream(pConfigFile));
 
 		int counter = 1;
@@ -59,11 +61,11 @@ public class LSBNRWExporter {
 				if (validationResult != null) {
 					LOGGER.info(validationResult);
 					retVal.add(validationResult);
-					out.write(validationResult);
+					// out.write(validationResult);
 				}
 				counter++;
 			}
-			
+
 			out.write(mResult.toCSV());
 		} catch (Exception e) {
 			throw new Exception("Fehler beim Lesen der Datei: " + pInputFilePath, e);
@@ -73,7 +75,7 @@ public class LSBNRWExporter {
 		return retVal;
 	}
 
-	String handleLine(final LSBNRWExporterConfig pConfig, final String pLine) {
+	String handleLine(final GSVereinExporterConfig pConfig, final String pLine) {
 		String retVal = null;
 		String[] split = pLine.split(";");
 		try {
@@ -101,15 +103,18 @@ public class LSBNRWExporter {
 		return retVal;
 	}
 
-	private String handleEintrag(final LSBNRWExporterConfig pProps, final String pAbteilung, final String pGeburtsdatum,
+	String handleEintrag(final GSVereinExporterConfig pProps, final String pAbteilung, final String pGeburtsdatum,
 			final String pGeschlecht, final String pAustritt) {
 		String retVal = handleAustrittsdatum(pAustritt);
 		if (retVal != null) {
 			return retVal;
 		}
 
-		if ("W".equalsIgnoreCase(pGeschlecht) == false && "M".equalsIgnoreCase(pGeschlecht) == false) {
-			return "Das Geschlecht muss M oder W sein, ist aber: " + pGeschlecht;
+		Geschlecht geschlecht = null;
+		try {
+			geschlecht = Geschlecht.fromString(pGeschlecht);
+		} catch (Exception e) {
+			return "Das Geschlecht muss M oder W sein, ist aber: '" + pGeschlecht + "'";
 		}
 
 		final String verband = pProps.getVerband(pAbteilung);
@@ -124,14 +129,14 @@ public class LSBNRWExporter {
 			geburtsdatum = GregorianCalendar.getInstance();
 			geburtsdatum.setTime(d);
 		} catch (ParseException e) {
-			return "Das Geburtsdatum kann nicht geparsed werden:" + pGeburtsdatum;
+			return "Das Geburtsdatum kann nicht verarbeitet werden: '" + pGeburtsdatum + "'";
 		}
 
-		mResult.count(verband, geburtsdatum.get(Calendar.YEAR), pGeschlecht);
+		mResult.count(verband, geburtsdatum.get(Calendar.YEAR), geschlecht);
 		return null;
 	}
 
-	private String handleAustrittsdatum(String pAustritt) {
+	String handleAustrittsdatum(final String pAustritt) {
 		String retVal = null;
 		if (pAustritt != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");

@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class LSBNRWExporterConfigTest extends TestCase {
+public class GSVereinExporterConfigTest extends TestCase {
 
 	@Test
 	public void testInitConfig() throws FileNotFoundException, IOException {
-		LSBNRWExporterConfig config = new LSBNRWExporterConfig();
+		GSVereinExporterConfig config = new GSVereinExporterConfig();
 		config.load(new FileInputStream(new File("src/test/resources/config.properties")));
 	}
 }
