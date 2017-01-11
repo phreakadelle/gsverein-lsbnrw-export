@@ -7,9 +7,9 @@ import junit.framework.TestCase;
 public class GSVereinExporterTest extends TestCase {
 
 	public void testParse() {
-		GSVereinExporter v = new GSVereinExporter();
+		GSVereinExporter v = new GSVereinExporter(new LSBNRWExportErgebnis());
 		try {
-			List<String> validate = v.validate("src/test/resources/config.properties", "src/test/resources/ssv2016.csv",
+			List<String> validate = v.export("src/test/resources/config.properties", "src/test/resources/ssv2016.csv",
 					"target/out2.csv");
 			for (String current : validate) {
 				System.out.println(current);

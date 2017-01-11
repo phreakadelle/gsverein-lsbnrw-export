@@ -12,14 +12,14 @@ import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-public class GSVereinLSBNRWExportStarter {
+public class GSVereinExportStarter {
 
-	private final static Logger LOGGER = Logger.getLogger(GSVereinLSBNRWExportStarter.class);
+	private final static Logger LOGGER = Logger.getLogger(GSVereinExportStarter.class);
 
 	public static void main(String[] args) {
 		int retVal = -1;
 		LOGGER.info("Start GSVerein LSB NRW Exporter");
-		LOGGER.info("Version: " + GSVereinLSBNRWExportStarter.class.getPackage().getImplementationVersion());
+		LOGGER.info("Version: " + GSVereinExportStarter.class.getPackage().getImplementationVersion());
 		LOGGER.info("watermeyer IT");
 		LOGGER.info("Stephan Watermeyer <stephan@phreakadelle.de>");
 		LOGGER.info("---");
@@ -36,10 +36,10 @@ public class GSVereinLSBNRWExportStarter {
 				final String input = cmd.getOptionValue("input");
 				final String config = cmd.getOptionValue("config");
 				final String output = cmd.getOptionValue("output");
-				
-				final GSVereinExporter v = new GSVereinExporter();
-				List<String> validate = v.validate(config, input, output);
-				
+
+				final GSVereinExporter v = new GSVereinExporter(new LSBNRWExportErgebnis());
+				List<String> validate = v.export(config, input, output);
+
 				// Maybe 0, or the count of failed entries
 				retVal = validate.size();
 			}
@@ -61,8 +61,9 @@ public class GSVereinLSBNRWExportStarter {
 
 		// Mandatory
 		retVal.addOption(Option.builder().longOpt("input").hasArg(true).required().desc("Pfad zur CSV Datei").build());
-		retVal.addOption(Option.builder().longOpt("config").hasArg(true).required().desc("Pfad zur Konfigurations Datei").build());
-		
+		retVal.addOption(Option.builder().longOpt("config").hasArg(true).required()
+				.desc("Pfad zur Konfigurations Datei").build());
+
 		// Optional
 		retVal.addOption(Option.builder().longOpt("output").hasArg(true).optionalArg(true)
 				.desc("Ausgabe der Ergebnisse").build());

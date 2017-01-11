@@ -6,6 +6,8 @@ public interface IBestandsdatenExport {
 
 	void count(final String pVerband, final int pGeburtsjahr, final Geschlecht pGeschlecht);
 
+	String getExportName();
+
 	String toCSV();
 
 	enum Geschlecht {

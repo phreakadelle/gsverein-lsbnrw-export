@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,13 +24,13 @@ public class GSVereinExporter {
 
 	private final static Logger LOGGER = Logger.getLogger(GSVereinExporter.class);
 
-	private final LSBNRWExportErgebnis mResult;
+	private final IBestandsdatenExport mResult;
 
-	public GSVereinExporter() {
-		mResult = new LSBNRWExportErgebnis();
+	public GSVereinExporter(IBestandsdatenExport pErgebnis) {
+		mResult = pErgebnis;
 	}
 
-	public List<String> validate(final String pConfigFilePath, final String pInputFilePath, String pOut)
+	public List<String> export(final String pConfigFilePath, final String pInputFilePath, final String pOutputFile)
 			throws Exception {
 		if (pConfigFilePath == null) {
 			throw new IllegalArgumentException("Die Pfadangabe ist ungueltig " + pConfigFilePath);
@@ -49,23 +50,45 @@ public class GSVereinExporter {
 			throw new IllegalArgumentException(
 					"Die Konfigurationsdatei konnte nicht gefunden werden: " + pFile.getAbsolutePath());
 		}
+
+		String out = pOutputFile;
+		if (out == null) {
+			out = mResult.getExportName() + "_" + pFile.getName();
+		}
+		return doExport(pInputFilePath, out, pFile, pConfigFile);
+	}
+
+	/**
+	 * 
+	 * @param pInputFilePath
+	 * @param pOut
+	 * @param pFile
+	 * @param pConfigFile
+	 * @return List of failed entries.
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 * @throws Exception
+	 */
+	List<String> doExport(final String pInputFilePath, final String pOutputFile, final File pFile,
+			final File pConfigFile) throws IOException, FileNotFoundException, Exception {
 		GSVereinExporterConfig pConfig = new GSVereinExporterConfig();
 		pConfig.load(new FileInputStream(pConfigFile));
 
 		int counter = 1;
 		final List<String> retVal = new ArrayList<String>();
-		try (BufferedReader br = new BufferedReader(new FileReader(pFile)); OutputLog out = new OutputLog(pOut)) {
+		try (BufferedReader br = new BufferedReader(new FileReader(pFile));
+				OutputLog out = new OutputLog(pOutputFile)) {
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				final String validationResult = handleLine(pConfig, line);
 				if (validationResult != null) {
 					LOGGER.info(validationResult);
 					retVal.add(validationResult);
-					// out.write(validationResult);
 				}
 				counter++;
 			}
 
+			// Das End-Ergebnis in die CSV Datei schreiben
 			out.write(mResult.toCSV());
 		} catch (Exception e) {
 			throw new Exception("Fehler beim Lesen der Datei: " + pInputFilePath, e);
@@ -79,7 +102,6 @@ public class GSVereinExporter {
 		String retVal = null;
 		String[] split = pLine.split(";");
 		try {
-			// System.out.println(line);
 			if (split.length < 3) {
 				retVal = createMessage(pLine, "Zeile ungueltig. Anzahl Felder muss 3 oder groesser sein.");
 			} else {
@@ -103,13 +125,25 @@ public class GSVereinExporter {
 		return retVal;
 	}
 
+	/**
+	 * 
+	 * @param pProps
+	 * @param pAbteilung
+	 * @param pGeburtsdatum
+	 * @param pGeschlecht
+	 * @param pAustritt
+	 * @return NULL if everything is OK, otherwise Error-String.
+	 */
 	String handleEintrag(final GSVereinExporterConfig pProps, final String pAbteilung, final String pGeburtsdatum,
 			final String pGeschlecht, final String pAustritt) {
+
+		// Austrittsdatum
 		String retVal = handleAustrittsdatum(pAustritt);
 		if (retVal != null) {
 			return retVal;
 		}
 
+		// Geschlecht
 		Geschlecht geschlecht = null;
 		try {
 			geschlecht = Geschlecht.fromString(pGeschlecht);
@@ -117,11 +151,13 @@ public class GSVereinExporter {
 			return "Das Geschlecht muss M oder W sein, ist aber: '" + pGeschlecht + "'";
 		}
 
+		// Verband
 		final String verband = pProps.getVerband(pAbteilung);
 		if (verband == null) {
 			return "Der Abteilung '" + pAbteilung + "' wurde in der Konfigurationsdatei kein Verband zugeordnet.";
 		}
 
+		// Geburtsdatum
 		final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		Calendar geburtsdatum = null;
 		try {
@@ -132,7 +168,10 @@ public class GSVereinExporter {
 			return "Das Geburtsdatum kann nicht verarbeitet werden: '" + pGeburtsdatum + "'";
 		}
 
+		// Auswertung
 		mResult.count(verband, geburtsdatum.get(Calendar.YEAR), geschlecht);
+
+		// Wenn alles ok, dann keinen Fehler-Eintrag zurückliefern.
 		return null;
 	}
 

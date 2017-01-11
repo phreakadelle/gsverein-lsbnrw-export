@@ -10,6 +10,10 @@ public class LSBNRWExportErgebnis implements IBestandsdatenExport {
 
 	Map<String, LSBNRWExportVerbandsErgebnis> mAlleErgebnisse;
 
+	public String getExportName() {
+		return "lsbnrw";
+	}
+
 	public LSBNRWExportErgebnis() {
 		mAlleErgebnisse = new HashMap<String, LSBNRWExportVerbandsErgebnis>();
 	}
@@ -48,11 +52,20 @@ class LSBNRWExportVerbandsErgebnis {
 	public Object toCSV() {
 		StringBuilder sb = new StringBuilder();
 		for (Integer current : mAlleJahrgaenge.keySet()) {
+			LSBNRWExportVerbandsJahresErgebnis currentJahrgang = mAlleJahrgaenge.get(current);
+
+			// Maennlein
 			sb.append(mVerband).append(";");
 			sb.append(current).append(";");
-			LSBNRWExportVerbandsJahresErgebnis currentJahrgang = mAlleJahrgaenge.get(current);
-			sb.append(currentJahrgang.getAnzahlMaennlein()).append(";");
-			sb.append(currentJahrgang.getAnzahlWeiblein()).append(";");
+			sb.append("m").append(";");
+			sb.append(currentJahrgang.getAnzahlMaennlein());
+			sb.append(System.getProperty("line.separator"));
+			
+			// Weiblein
+			sb.append(mVerband).append(";");
+			sb.append(current).append(";");
+			sb.append("w").append(";");
+			sb.append(currentJahrgang.getAnzahlWeiblein());
 			sb.append(System.getProperty("line.separator"));
 		}
 		return sb.toString();
