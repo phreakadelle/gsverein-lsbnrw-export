@@ -22,6 +22,8 @@ import info.watermeyer.gsverein.IBestandsdatenExport.Geschlecht;
 
 public class GSVereinExporter {
 
+	private static final String DATE_FORMAT = "dd.MM.yyyy";
+
 	private final static Logger LOGGER = Logger.getLogger(GSVereinExporter.class);
 
 	private final IBestandsdatenExport mResult;
@@ -158,18 +160,19 @@ public class GSVereinExporter {
 		}
 
 		// Geburtsdatum
-		final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		Calendar geburtsdatum = null;
+		final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		int geburtsjahr = 0;
 		try {
 			Date d = sdf.parse(pGeburtsdatum);
-			geburtsdatum = GregorianCalendar.getInstance();
+			Calendar geburtsdatum = GregorianCalendar.getInstance();
 			geburtsdatum.setTime(d);
+			geburtsjahr = geburtsdatum.get(Calendar.YEAR);
 		} catch (ParseException e) {
 			return "Das Geburtsdatum kann nicht verarbeitet werden: '" + pGeburtsdatum + "'";
 		}
 
 		// Auswertung
-		mResult.count(verband, geburtsdatum.get(Calendar.YEAR), geschlecht);
+		mResult.count(verband, geburtsjahr, geschlecht);
 
 		// Wenn alles ok, dann keinen Fehler-Eintrag zurückliefern.
 		return null;
@@ -178,7 +181,7 @@ public class GSVereinExporter {
 	String handleAustrittsdatum(final String pAustritt) {
 		String retVal = null;
 		if (pAustritt != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 			try {
 				Date parse = sdf.parse(pAustritt);
 				if (parse.before(new Date())) {

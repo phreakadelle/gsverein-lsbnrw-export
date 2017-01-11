@@ -43,7 +43,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>info.watermeyer.gsverein.IBANValidatorStarter</mainClass>
+							<mainClass>info.watermeyer.gsverein.GSVereinExportStarter</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
@@ -52,7 +52,7 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<appendAssemblyId>false</appendAssemblyId>
-					<finalName>gsverein-iban-tool</finalName>
+					<finalName>gsverein-verband-exporter</finalName>
 				</configuration>
 				<executions>
 					<execution>
