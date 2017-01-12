@@ -35,3 +35,7 @@ Die Bildschirm-Ausgabe müsste nun in etwa so aussehen:
 ![Alt text](/src/site/resources/2017-01-11_112440.jpg?raw=true "Beispielausgabe")
 
 6. Du kannst nun auf dem Bildschirm die falschen Datensätze erkennen. In diesem Beispiel wurde kein Verband für die Abteilung "Karate" definiert. 
+
+# Weitere Infos
+Auf meiner Webseite habe ich weitere Details veröffentlicht:
+* https://www.watermeyer.info/2017/01/11/gsverein-bestandsdaten-export-fuer-den-lsb/
