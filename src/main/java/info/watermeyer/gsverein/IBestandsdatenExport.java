@@ -11,7 +11,7 @@ public interface IBestandsdatenExport {
 	String toCSV();
 
 	enum Geschlecht {
-		MAENNLEIN("M"), WEIBLEIN("W");
+		MAENNLEIN("M"), WEIBLEIN("W"), MAENNLICH("männlich"), WEIBLICH("weiblich");
 
 		final String Abkuerzung;
 
@@ -23,6 +23,10 @@ public interface IBestandsdatenExport {
 			if (MAENNLEIN.Abkuerzung.equalsIgnoreCase(pString)) {
 				return Geschlecht.MAENNLEIN;
 			} else if (WEIBLEIN.Abkuerzung.equalsIgnoreCase(pString)) {
+				return Geschlecht.WEIBLEIN;
+			} else if (MAENNLICH.Abkuerzung.equalsIgnoreCase(pString)) {
+				return Geschlecht.MAENNLEIN;
+			} else if (WEIBLICH.Abkuerzung.equalsIgnoreCase(pString)) {
 				return Geschlecht.WEIBLEIN;
 			} else {
 				return Enum.valueOf(Geschlecht.class, pString);

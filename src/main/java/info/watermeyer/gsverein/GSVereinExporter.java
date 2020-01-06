@@ -107,13 +107,13 @@ public class GSVereinExporter {
 			if (split.length < 3) {
 				retVal = createMessage(pLine, "Zeile ungueltig. Anzahl Felder muss 3 oder groesser sein.");
 			} else {
-				final String abteilung = split[0];
-				final String geburtsdatum = split[1];
-				final String geschlecht = split[2];
+				final String abteilung = removeTrailingLeadingQuotes(split[0]);
+				final String geburtsdatum =  removeTrailingLeadingQuotes(split[1]);
+				final String geschlecht = removeTrailingLeadingQuotes( split[2]);
 
 				final String austritt;
 				if (split.length > 3) {
-					austritt = split[3];
+					austritt =  removeTrailingLeadingQuotes(split[3]);
 				} else {
 					austritt = null;
 				}
@@ -127,6 +127,17 @@ public class GSVereinExporter {
 		return retVal;
 	}
 
+	String removeTrailingLeadingQuotes(String pString) {
+		String retVal = pString;
+		if(retVal.startsWith("\"")) {
+			retVal = retVal.substring(1);
+		}
+		
+		if(retVal.endsWith("\"")) {
+			retVal = retVal.substring(0,retVal.length() -1);
+		}
+		return retVal;
+	}
 	/**
 	 * 
 	 * @param pProps
@@ -180,7 +191,7 @@ public class GSVereinExporter {
 
 	String handleAustrittsdatum(final String pAustritt) {
 		String retVal = null;
-		if (pAustritt != null) {
+		if (pAustritt != null && !pAustritt.trim().isEmpty()) {
 			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 			try {
 				Date parse = sdf.parse(pAustritt);
@@ -188,7 +199,7 @@ public class GSVereinExporter {
 					retVal = "Das Austrittsdatum liegt in der Vergangeheit. Datensatz wird nicht beruecks";
 				}
 			} catch (ParseException e) {
-				retVal = "Das Austrittsdatum kann nicht geparsed werden:" + pAustritt;
+				retVal = "Das Austrittsdatum kann nicht geparsed werden: \"" + pAustritt+ "\"";
 			}
 		} else {
 			// Wenn kein Austrittsdatum gegeben ist, alles OK
