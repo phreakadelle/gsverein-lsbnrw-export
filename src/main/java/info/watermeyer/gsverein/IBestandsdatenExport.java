@@ -29,9 +29,18 @@ public interface IBestandsdatenExport {
 			} else if (WEIBLICH.Abkuerzung.equalsIgnoreCase(pString)) {
 				return Geschlecht.WEIBLEIN;
 			} else {
-				return Enum.valueOf(Geschlecht.class, pString);
+				return parse(pString);
 			}
-
+		}
+		
+		static Geschlecht parse(String pValue) {
+			if(pValue.endsWith("nnlich")) {
+				return Geschlecht.MAENNLEIN;
+			} else if(pValue.endsWith("weiblich")) {
+				return Geschlecht.WEIBLEIN;
+			} else {
+				return Enum.valueOf(Geschlecht.class, pValue);
+			}
 		}
 	}
 }
